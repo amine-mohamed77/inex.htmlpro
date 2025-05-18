@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UniHomeConnect - Student Housing Platform</title>
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Header styles */
+        header {
+            background-color: white;
+            border-bottom: 1px solid #e1e1e1;
+            padding: 15px 0;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            color: #3b82f6;
+            font-size: 24px;
+            margin-right: 8px;
+        }
+
+        .logo-text {
+            color: #3b82f6;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+        }
+
+        .nav-links a {
+            color: #666;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: #333;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .search-icon, .user-icon {
+            color: #666;
+            cursor: pointer;
+        }
+
+        /* User dropdown menu */
+        .user-dropdown {
+            position: relative;
+        }
+
+        .user-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background-color: #f0f0f0;
+            border-radius: 50%;
+            font-weight: 500;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 45px;
+            right: 0;
+            width: 280px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 16px;
+            z-index: 100;
+            display: none;
+        }
+
+        .dropdown-menu.active {
+            display: block;
+        }
+
+        .dropdown-header {
+            padding-bottom: 12px;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 12px;
+        }
+
+        .dropdown-name {
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .dropdown-email {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 0;
+            color: #333;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .dropdown-item:hover {
+            color: #3b82f6;
+        }
+
+        .dropdown-item i {
+            margin-right: 12px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .dropdown-item.sign-out {
+            color: #ef4444;
+        }
+
+        .dropdown-item.sign-out:hover {
+            color: #dc2626;
+        }
+
+        /* Main content styles */
+        main {
+            padding: 24px 0;
+        }
+
+        .profile-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .profile-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 24px;
+        }
+
+        .profile-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: #e5e5e5;
+            overflow: hidden;
+        }
+
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-details {
+            margin-left: 16px;
+        }
+
+        .profile-name-badge {
+            display: flex;
+            align-items: center;
+        }
+
+        .profile-name {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .profile-badge {
+            background-color: #3b82f6;
+            color: white;
+            font-size: 12px;
+            padding: 4px 12px;
+            border-radius: 9999px;
+            margin-left: 8px;
+        }
+
+        .profile-rating {
+            display: flex;
+            align-items: center;
+            margin-top: 4px;
+        }
+
+        .star-icon {
+            color: #f59e0b;
+            margin-right: 4px;
+        }
+
+        .profile-meta {
+            color: #666;
+        }
+
+        .profile-university {
+            color: #666;
+            margin-top: 4px;
+        }
+
+        .edit-profile-btn {
+            display: flex;
+            align-items: center;
+            padding: 8px 16px;
+            border: 1px solid #e1e1e1;
+            border-radius: 8px;
+            background-color: white;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .edit-profile-btn:hover {
+            background-color: #f9f9f9;
+        }
+
+        .settings-icon {
+            margin-right: 8px;
+        }
+
+        /* Tabs styles */
+        .profile-tabs {
+            border-bottom: 1px solid #e1e1e1;
+            display: flex;
+            gap: 32px;
+        }
+
+        .tab {
+            padding: 16px 4px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #666;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .tab.active {
+            color: #3b82f6;
+            border-bottom-color: #3b82f6;
+        }
+
+        .tab:hover:not(.active) {
+            color: #333;
+            border-bottom-color: #e1e1e1;
+        }
+
+        /* About section */
+        .about-section {
+            margin-top: 32px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 16px;
+        }
+
+        .about-text {
+            color: #555;
+        }
+
+        /* Info sections */
+        .info-sections {
+            margin-top: 32px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 32px;
+        }
+
+        @media (min-width: 768px) {
+            .info-sections {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .info-label {
+            color: #666;
+        }
+
+        .info-value {
+            font-weight: 500;
+            text-align: right;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .profile-header {
+                flex-direction: column;
+            }
+
+            .edit-profile-btn {
+                margin-top: 16px;
+                align-self: flex-start;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header/Navigation -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="/" class="logo">
+                    <span class="logo-icon">⌂</span>
+                    <span class="logo-text">UniHomeConnect</span>
+                </a>
+                <div class="nav-links">
+                    <a href="/">Home</a>
+                    <a href="/offers">Offers</a>
+                    <a href="/demands">Demands</a>
+                </div>
+                <div class="nav-actions">
+                    <span class="search-icon">🔍</span>
+                    <div class="user-dropdown">
+                        <span class="user-icon" onclick="toggleDropdown()">A</span>
+                        <div class="dropdown-menu" id="userDropdown">
+                            <div class="dropdown-header">
+                                <div class="dropdown-name">aminmohamedaboamasha</div>
+                                <div class="dropdown-email">aminmohamedaboamasha@gmail.com</div>
+                            </div>
+                            <a href="/profile" class="dropdown-item">
+                                <i>👤</i> My Profile
+                            </a>
+                            <a href="/post-offer" class="dropdown-item">
+                                <i>➕</i> Post Offer
+                            </a>
+                            <a href="/post-demand" class="dropdown-item">
+                                <i>➕</i> Post Demand
+                            </a>
+                            <a href="/logout" class="dropdown-item sign-out">
+                                <i>🚪</i> Sign Out
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            <div class="profile-card">
+                <!-- Profile Header -->
+                <div class="profile-header">
+                    <div class="profile-info">
+                        <div class="profile-avatar">
+                            <img src="https://via.placeholder.com/80" alt="Profile picture">
+                        </div>
+                        <div class="profile-details">
+                            <div class="profile-name-badge">
+                                <h1 class="profile-name">Alex Johnson</h1>
+                                <span class="profile-badge">Student</span>
+                            </div>
+                            <div class="profile-rating">
+                                <span class="star-icon">★</span>
+                                <span>4.7 rating</span>
+                                <span style="margin: 0 8px;">•</span>
+                                <span class="profile-meta">Member since September 2022</span>
+                            </div>
+                            <p class="profile-university">University of Washington</p>
+                        </div>
+                    </div>
+                    <button class="edit-profile-btn">
+                        <span class="settings-icon">⚙️</span>
+                        Edit Profile
+                    </button>
+                </div>
+
+                <!-- Profile Tabs -->
+                <div class="profile-tabs">
+                    <div class="tab active">Profile</div>
+                    <div class="tab">Wishlist</div>
+                    <div class="tab">My Posts</div>
+                    <div class="tab">Messages</div>
+                </div>
+
+                <!-- About Me Section -->
+                <div class="about-section">
+                    <h2 class="section-title">About Me</h2>
+                    <p class="about-text">
+                        Computer Science major looking for affordable housing near campus. I'm clean, quiet, and respectful of shared spaces.
+                    </p>
+                </div>
+
+                <!-- Information Sections -->
+                <div class="info-sections">
+                    <!-- Personal Information -->
+                    <div>
+                        <h2 class="section-title">Personal Information</h2>
+                        <div class="info-item">
+                            <span class="info-label">Full Name</span>
+                            <span class="info-value">Alex Johnson</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Email</span>
+                            <span class="info-value">alex@university.edu</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">University</span>
+                            <span class="info-value">University of Washington</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Member Since</span>
+                            <span class="info-value">September 2022</span>
+                        </div>
+                    </div>
+
+                    <!-- Housing Preferences -->
+                    <div>
+                        <h2 class="section-title">Housing Preferences</h2>
+                        <div class="info-item">
+                            <span class="info-label">Preferred Location</span>
+                            <span class="info-value">Within 1 mile of campus</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Budget</span>
+                            <span class="info-value">$700 - $1000 / month</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Room Type</span>
+                            <span class="info-value">Private room or studio</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Move-in Date</span>
+                            <span class="info-value">Flexible</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- JavaScript for dropdown functionality -->
+    <script>
+        function toggleDropdown() {
+            const dropdown = document.getElementById('userDropdown');
+            dropdown.classList.toggle('active');
+        }
+
+        // Close dropdown when clicking outside
+        window.addEventListener('click', function(event) {
+            const dropdown = document.getElementById('userDropdown');
+            const userIcon = document.querySelector('.user-icon');
+            
+            if (!userIcon.contains(event.target) && !dropdown.contains(event.target)) {
+                dropdown.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
